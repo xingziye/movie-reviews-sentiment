@@ -140,14 +140,25 @@ class SentimentAnalysis:
     X_test = npxtest.astype(np.float32)
     Y_test = npytest.astype(np.float32)
 
-    model.fit([X_train, X_train], Y_train, nb_epoch=5, batch_size=5)
-    score = model.evaluate([X_test, X_test], Y_test, batch_size=1)
+    model.fit([X_train, X_train], Y_train, nb_epoch=50, batch_size=128)
+    score = model.evaluate([X_test, X_test], Y_test, batch_size=128)
     print score
 
-    print K.get_value(model.layers[2].W)
+    pred = K.get_value(model.layers[2].W)
+    # count = 0
+    # totalcount = 0
+    # for i in range(0, len(pred)):
+    #   val = pred[i]
+    #   if Y_test[i] == min(abs(val-(-1.0)), abs(val-(-2.0)), abs(val-(0)), abs(val-1), abs(val-2) ):
+    #     count+=1
+    #   totalcount+=1
+    #
+    # print count
+    # print totalcount
+    print pred
 
 
 
 
 if __name__ == "__main__":
-  pre = SentimentAnalysis("./output_1.tsv", "./test.tsv")
+  pre = SentimentAnalysis("./train.tsv", "./test.tsv")
